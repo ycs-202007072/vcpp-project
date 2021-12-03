@@ -281,6 +281,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         break;
 
+      /*  case WM_TIMER:
+        {
+            int i = 0;
+            RECT dst;
+
+            switch (wParam)
+            {
+                
+                    if(villan[])
+                
+                
+                break;
+            }
+        }
+        */
     case WM_PAINT:
     {
         int i = 0;
@@ -469,7 +484,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             if (me.left >= 330 && me.right <= 380) {
-                if (me.bottom < 545 && me.bottom >= 400)
+                if (me.bottom <= 540 && me.bottom >= 400)
                 {
                     me.top += 10;
                     me.bottom += 10;
@@ -478,7 +493,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             if (me.left >= 1050 && me.right <= 1100) {
-                if (me.bottom < 701 && me.bottom > 555)
+                if (me.bottom < 700 && me.bottom >= 550)
                 {
                     me.top += 10;
                     me.bottom += 10;
