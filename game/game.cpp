@@ -131,7 +131,9 @@ RECT item[5];
 RECT lader[3];
 RECT villan[6];
 
-int r; // random 저장값
+int timer, speed; 
+
+#define TIMER 1
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -279,23 +281,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             villan[3].bottom = villan[3].top + 40;
         }
 
+        
+        speed = 1000;
+        SetTimer(hWnd, TIMER, speed, NULL);
+
         break;
 
-      /*  case WM_TIMER:
+        case WM_TIMER:
         {
             int i = 0;
             RECT dst;
 
             switch (wParam)
             {
-                
-                    if(villan[])
-                
-                
+            case TIMER:
+                KillTimer(hWnd, TIMER);
+                SetTimer(hWnd, TIMER, speed, NULL);
+
+
+                if (villan[0].left > 500)
+                    {
+                        villan[0].left += 10;
+                        villan[0].right += 10;
+                    }
+                if (villan[0].right == 1300)
+                {
+                    villan[0].left -= 10;
+                    villan[0].right -= 10;
+                }
                 break;
             }
         }
-        */
+        
     case WM_PAINT:
     {
         int i = 0;
