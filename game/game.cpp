@@ -135,33 +135,34 @@ int r; // random 저장값
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    WCHAR mmsg[128] = { 0, };
     switch (message)
     {
     case WM_COMMAND:
+    {
+        int wmId = LOWORD(wParam);
+        // 메뉴 선택을 구문 분석합니다:
+        switch (wmId)
         {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다:
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
+        case IDM_ABOUT:
+            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            break;
+        case IDM_EXIT:
+            DestroyWindow(hWnd);
+            break;
+        default:
+            return DefWindowProc(hWnd, message, wParam, lParam);
         }
-        break;
+    }
+    break;
 
     case WM_CREATE:
 
         //나 크기설정(좌표)
-        me.left = 30;
+        me.left = 330;
         me.top = 660;
-        me.right = me.left+40;
-        me.bottom = me.top + 40;
+        me.right = 370;
+        me.bottom = 700;
 
         srand(time(NULL));
 
@@ -174,8 +175,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             item[1].left = (rand() % 600) + 660;
             item[1].top = 360;
-            item[1].right = item[1].left +40;
-            item[1].bottom = item[1].top+40;
+            item[1].right = item[1].left + 40;
+            item[1].bottom = item[1].top + 40;
 
             item[2].left = (rand() % 400) + 410;
             item[2].top = 260;
@@ -198,7 +199,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             stage[1].left = 300;
             stage[1].top = 550;
-            stage[1].right = stage[0].right;
+            stage[1].right = 1300;
             stage[1].bottom = stage[1].top + 40;
 
             stage[2].left = 0;
@@ -206,19 +207,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             stage[2].right = 600;
             stage[2].bottom = stage[2].top + 40;
 
-            stage[3].left = stage[2].right + 100;
+            stage[3].left = 700;
             stage[3].top = 400;
             stage[3].right = 1300;
             stage[3].bottom = stage[3].top + 40;
 
             stage[4].left = 150;
             stage[4].top = 300;
-            stage[4].right = stage[4].left + 250;
+            stage[4].right = 400;
             stage[4].bottom = stage[4].top + 40;
 
-            stage[5].left = stage[4].right + 50;
+            stage[5].left = 450;
             stage[5].top = 300;
-            stage[5].right = stage[5].left + 450;
+            stage[5].right = 900;
             stage[5].bottom = stage[5].top + 40;
 
             stage[6].left = 0;
@@ -226,133 +227,276 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             stage[6].right = 1000;
             stage[6].bottom = stage[6].top + 40;
 
-            stage[7].left = stage[6].right - 50;
+            stage[7].left = 950;
             stage[7].top = 140;
-            stage[7].right = stage[7].left + 30;
+            stage[7].right = 980;
             stage[7].bottom = stage[7].top + 150;
 
-            stage[8].left = stage[7].left;
-            stage[8].top = stage[7].bottom - 30;
+            stage[8].left = 950;
+            stage[8].top = 260;
             stage[8].right = 1300;
-            stage[8].bottom = stage[7].bottom;
+            stage[8].bottom = 290;
         }
 
         //사다리
         {
             lader[0].left = 50;
-            lader[0].top = stage[6].top;
-            lader[0].right = lader[0].left + 50;
-            lader[0].bottom = stage[2].top;
+            lader[0].top = 100;
+            lader[0].right = 100;
+            lader[0].bottom = 400;
 
             lader[1].left = 330;
-            lader[1].top = stage[3].top;
-            lader[1].right = lader[1].left + 50;
-            lader[1].bottom = stage[1].top;
+            lader[1].top = 400;
+            lader[1].right = 380;
+            lader[1].bottom = 550;
 
             lader[2].left = 1050;
-            lader[2].top = stage[1].top;
-            lader[2].right = lader[2].left + 50;
-            lader[2].bottom = stage[0].top;
+            lader[2].top = 550;
+            lader[2].right = 1100;
+            lader[2].bottom = 700;
         }
 
         //적
-        villan[0].left = rand() % 1300;
-        villan[0].top = 660;
-        villan[0].right = item[0].left + 40;
-        villan[0].bottom = item[0].top + 40;
-        
-        villan[1].left = (rand() % 600) + 660;
-        villan[1].top = 360;
-        villan[1].right = item[1].left + 40;
-        villan[1].bottom = item[1].top + 40;
-        
-        villan[2].left = (rand() % 400) + 410;
-        villan[2].top = 260;
-        villan[2].right = item[2].left + 40;
-        villan[2].bottom = item[2].top + 40;
-        
-        villan[3].left = rand() %1000;
-        villan[3].top = 220;
-        villan[3].right = item[3].left + 40;
-        villan[3].bottom = item[3].top + 40;       
+        {
+            villan[0].left = (rand() % 1000) + 260;
+            villan[0].top = 660;
+            villan[0].right = villan[0].left + 40;
+            villan[0].bottom = villan[0].top + 40;
+
+            villan[1].left = (rand() % 600) + 660;
+            villan[1].top = 360;
+            villan[1].right = villan[1].left + 40;
+            villan[1].bottom = villan[1].top + 40;
+
+            villan[2].left = (rand() % 400) + 410;
+            villan[2].top = 260;
+            villan[2].right = villan[2].left + 40;
+            villan[2].bottom = villan[2].top + 40;
+
+            villan[3].left = (rand() % 300) + 960;
+            villan[3].top = 220;
+            villan[3].right = villan[3].left + 40;
+            villan[3].bottom = villan[3].top + 40;
+        }
 
         break;
 
     case WM_PAINT:
-        {
+    {
         int i = 0;
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-           
-            //stage 그려주는 반복문
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
 
-            for (i = 0; i < sizeof(stage); i++)
-            {
-                Rectangle(hdc, stage[i].left, stage[i].top, stage[i].right, stage[i].bottom);
-            }
+        //stage 그려주는 반복문
 
-
-            //item 그려주는 반복문
-            
-            for (i = 0; i < 5; i++)
-            {
-                Rectangle(hdc, item[i].left, item[i].top, item[i].right, item[i].bottom);
-            }
-
-            //사다리
-
-            for (i = 0; i < 5; i++)
-            {
-                Rectangle(hdc, lader[i].left, lader[i].top, lader[i].right, lader[i].bottom);
-            }
-
-            //적
-
-            for (i = 0; i < 5; i++)
-            {
-                Ellipse(hdc, lader[i].left, lader[i].top, lader[i].right, lader[i].bottom);
-            }
-
-            //나
-            Rectangle(hdc, me.left, me.top, me.right, me.bottom);
-
-            EndPaint(hWnd, &ps);
+        for (i = 0; i < 10; i++)
+        {
+            Rectangle(hdc, stage[i].left, stage[i].top, stage[i].right, stage[i].bottom);
         }
-        break;
+
+
+        //item 그려주는 반복문
+
+        for (i = 0; i < 5; i++)
+        {
+            Rectangle(hdc, item[i].left, item[i].top, item[i].right, item[i].bottom);
+        }
+
+        //사다리
+
+        for (i = 0; i < 3; i++)
+        {
+            Rectangle(hdc, lader[i].left, lader[i].top, lader[i].right, lader[i].bottom);
+        }
+
+        //적
+
+        for (i = 0; i < 5; i++)
+        {
+            Ellipse(hdc, villan[i].left, villan[i].top, villan[i].right, villan[i].bottom);
+        }
+
+        //나
+
+        Rectangle(hdc, me.left, me.top, me.right, me.bottom);
+
+
+
+        EndPaint(hWnd, &ps);
+    }
+    break;
 
     case WM_KEYDOWN:
     {
-        switch (wParam)
-        {
-            // 좌, 상, 우, 하 키가 입력되었는지 확인
+         switch (wParam)
+        {            // 좌, 상, 우, 하 키가 입력되었는지 확인
         case VK_LEFT:   // x 좌표의 이동 (left, right) -> 감소
-            me.left -= 10;
-            me.right -= 10;
-            break;
+         //좌
+        {
+            if (me.bottom = stage[0].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[1].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[2].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[3].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[4].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[5].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[6].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[7].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
+            else if (me.bottom = stage[8].top) {
+                me.left -= 10;
+                me.right -= 10;
+            }
 
-        case VK_RIGHT:  // x 좌표의 이동 (left, right) -> 증가
-            me.left += 10;
-            me.right += 10;
-            break;
+
+        }
+
+        break;
+
+        case VK_RIGHT:
+            //우
+        {
+            if (me.bottom = stage[0].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[1].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[2].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[3].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[4].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[5].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[6].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[7].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+            else if (me.bottom = stage[8].top) {
+                me.left += 10;
+                me.right += 10;
+            }
+
+        }
+
+        break;
 
         case VK_UP:     // y 좌표의 이동 (top, botoom) -> 감소
-            me.top -= 10;
-            me.bottom -= 10;
-            break;
+        //상
+        {
+            if (me.left >= 50 && me.right <= 100) {
+                if (me.bottom <= 400 && me.bottom > 105)
+                {
+                    me.top -= 10;
+                    me.bottom -= 10;
+                    break;
+                }
+            }
 
-        case VK_DOWN:   // y 좌표의 이동 (top, botoom) -> 증가
-           me.top += 10;
-            me.bottom += 10;
-            break;
+            if (me.left >= 330 && me.right <= 380) {
+                if (me.bottom <= 550 && me.bottom > 400)
+                {
+                    me.top -= 10;
+                    me.bottom -= 10;
+                    break;
+                }
+            }
+
+            if (me.left >= 1050 && me.right <= 1100) {
+                if (me.bottom < 701 && me.bottom > 555)
+                {
+                    me.top -= 10;
+                    me.bottom -= 10;
+                    break;
+                }
+
+
+            }
         }
-        // 좌표 값을 변경하고 난 다음 위치
-        // 내가 아이템을 먹을 수 있는 위치인가?
         
+        break;
+
+        
+        case VK_DOWN:   // y 좌표의 이동 (top, botoom) -> 증가
+
+        {
+            if (me.left >= 50 && me.right <= 100) {
+                if (me.bottom <= 390 && me.bottom >= 100)
+                {
+                    me.top += 10;
+                    me.bottom += 10;
+
+                }
+            }
+
+            if (me.left >= 330 && me.right <= 380) {
+                if (me.bottom < 545 && me.bottom >= 400)
+                {
+                    me.top += 10;
+                    me.bottom += 10;
+
+                }
+            }
+
+            if (me.left >= 1050 && me.right <= 1100) {
+                if (me.bottom < 701 && me.bottom > 555)
+                {
+                    me.top += 10;
+                    me.bottom += 10;
+
+                }
+
+
+            }
+        }
+
+        break;
+}
+        
+
         // WM_PAINT를 강제로 프로그래머가 호출하는 방법
         InvalidateRect(hWnd, NULL, TRUE);
-    }
-    break;
+        
+        break;
 
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -361,6 +505,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
+    }
 }
 
 // 정보 대화 상자의 메시지 처리기입니다.
