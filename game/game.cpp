@@ -131,6 +131,8 @@ RECT item[5];
 RECT lader[3];
 RECT villan[6];
 
+bool any = FALSE;;
+
 int timer, speed; 
 
 #define TIMER 1
@@ -282,7 +284,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
 
         
-        speed = 1000;
+        speed = 100;
         SetTimer(hWnd, TIMER, speed, NULL);
 
         break;
@@ -295,20 +297,95 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wParam)
             {
             case TIMER:
-                KillTimer(hWnd, TIMER);
                 SetTimer(hWnd, TIMER, speed, NULL);
-
-
-                if (villan[0].left > 500)
-                    {
-                        villan[0].left += 10;
-                        villan[0].right += 10;
-                    }
-                if (villan[0].right == 1300)
+                
+                //적1
+                if (any == FALSE) 
                 {
-                    villan[0].left -= 10;
-                    villan[0].right -= 10;
+                        villan[1].left += 10;
+                        villan[1].right += 10;
+                    if (villan[1].right > 1300)
+                    {
+                        any = TRUE;
+                    }
                 }
+
+                if (any )
+                {      
+                    villan[1].left -= 10;
+                    villan[1].right -= 10;                               
+                if (villan[1].left < 500)
+                    {
+                         any = FALSE;
+
+                    }
+                }
+                //적2
+                if (any == FALSE)
+                {
+                    villan[2].left += 10;
+                    villan[2].right += 10;
+                if (villan[2].right > 1300)
+                    {
+                        any = TRUE;
+                    }
+                }
+
+                if (any)
+                {
+                    villan[2].left -= 10;
+                    villan[2].right -= 10;
+                if (villan[2].left < 500)
+                    {
+                        any = FALSE;
+
+                    }
+                }
+                //적3
+                if (any == FALSE)
+                {
+                    villan[3].left += 10;
+                    villan[3].right += 10;
+                if (villan[3].right > 1300)
+                    {
+                        any = TRUE;
+                    }
+                }
+
+                if (any)
+                {
+                    villan[3].left -= 10;
+                    villan[3].right -= 10;
+                if (villan[3].left < 500)
+                    {
+                        any = FALSE;
+
+                    }
+                }
+                //적4
+                if (any == FALSE)
+                {
+                    villan[4].left += 10;
+                    villan[4].right += 10;
+                if (villan[4].right > 1300)
+                    {
+                        any = TRUE;
+                    }
+                }
+
+                if (any)
+                {
+                    villan[4].left -= 10;
+                    villan[4].right -= 10;
+                if (villan[4].left < 500)
+                    {
+                        any = FALSE;
+
+                    }
+                }
+              
+                
+                InvalidateRect(hWnd, NULL, TRUE);
                 break;
             }
         }
