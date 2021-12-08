@@ -126,10 +126,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 
 RECT me,shoot;
-RECT stage[10];
-RECT item[5];
+RECT stage[9];
+RECT item[4];
 RECT lader[4];
-RECT villan[6];
+RECT villan[4];
 RECT dst;
 
 bool any1 = FALSE;
@@ -191,7 +191,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         //아이템 좌표
         {
-            item[0].left = rand() % 1300;
+            item[0].left = rand() % 1260;
             item[0].top = 660;
             item[0].right = item[0].left + 40;
             item[0].bottom = item[0].top + 40;
@@ -408,7 +408,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 }
             }
 
-           for (i = 0; i < 6; i++)
+            for (i = 0; i < 4; i++)
+            {
+                if (TRUE == IntersectRect(&dst, &me, &villan[i]))
+                {
+                    KillTimer(hWnd, TIME);
+                    KillTimer(hWnd, TIMER);
+
+                    MessageBox(hWnd, L"이러언...", L"져버렸다,,,ㅠㅠ", MB_OK);
+
+                    return 0;
+                }
+                InvalidateRect(hWnd, NULL, TRUE);
+            }
+
+           for (i = 0; i < 4; i++)
             {
                 if (TRUE == IntersectRect(&dst, &villan[i], &shoot))     // 좌표 겹침이 존재한다면
                 {
@@ -429,10 +443,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 InvalidateRect(hWnd, NULL, TRUE);
             }
 
+           
+
+           for (i = 0; i < 4; i++)
+           {
+               if (TRUE == IntersectRect(&dst, &me, &item[i]))
+               {
+                   item[i].left = 0;
+                   item[i].top = 0;
+                   item[i].right = 0;
+                   item[i].bottom = 0;
+
+                   score += 100;
+               }
+               InvalidateRect(hWnd, NULL, TRUE);
+           }
+               
+              
+
+           
+
         case TIME:
         {
-            shooting = 10;
-
+            shooting = 1;
            
             
             SetTimer(hWnd, TIME, shooting, NULL);
@@ -441,13 +474,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
                 if (flag == 1)
                 {
-                    shoot.left += 10;
-                    shoot.right += 10;
+                    shoot.left += 5;
+                    shoot.right += 5;
                 }
                 if (flag == 0)
                 {
-                    shoot.left -= 10;
-                    shoot.right -= 10;
+                    shoot.left -= 5;
+                    shoot.right -= 5;
                 }
             }
             else
@@ -465,7 +498,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 sh = 1;
 
                 shoot.left = me.left + 20;
-                shoot.top = me.top - 10;;
+                shoot.top = me.top - 10;
                 shoot.right = shoot.left + 20;
                 shoot.bottom = shoot.top + 20;
             }
@@ -478,97 +511,111 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
 
     case WM_KEYDOWN:
-    {
-        switch (wParam)
-        {            // 좌, 상, 우, 하 키가 입력되었는지 확인
-        case VK_LEFT:   // x 좌표의 이동 (left, right) -> 감소
-            flag = 0;
-            //좌
+    {        RECT dst;
+    
+
+    switch (wParam)
+    {            // 좌, 상, 우, 하 키가 입력되었는지 확인
+    case VK_LEFT:   // x 좌표의 이동 (left, right) -> 감소
+        flag = 0;
+        //좌
+        {
             if (me.bottom == stage[0].top) {
                 me.left -= 10;
                 me.right -= 10;
             }
-            else if (me.bottom == stage[1].top) {
+            else if (me.bottom == 550) {               
+                if(me.left == 300)
+                {
+                    me.left -= 0;
+                    me.right -= 0;
+                }
+                else
+                { 
                 me.left -= 10;
                 me.right -= 10;
+                }
             }
-            else if (me.bottom == stage[2].top) {
+            else if (me.bottom == 400) {
+                if (me.left == 700)
+                {
+                    me.left -= 0;
+                    me.right -= 0;
+                }
+                else
+                {
+                    me.left -= 10;
+                    me.right -= 10;
+                }
+            }
+            else if (me.bottom == 300) {
+                if(me.left == 450 || me.left == 50)
+                {
+                    me.left -= 0;
+                    me.right -= 0;
+                }
+                else
+                {
+                    me.left -= 10;
+                    me.right -= 10;
+                }
+            }
+            else if (me.bottom == 260) {
+                if(me.left == 950)
+                {
+                    me.left -= 0;
+                    me.right -= 0;
+                }
+                else
+                {
+                    me.left -= 10;
+                    me.right -= 10;
+                }
+            }
+            else if (me.bottom ==100) {
                 me.left -= 10;
                 me.right -= 10;
-            }
-            else if (me.bottom == stage[3].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
-            else if (me.bottom == stage[4].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
-            else if (me.bottom == stage[5].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
-            else if (me.bottom == stage[6].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
-            else if (me.bottom == stage[7].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
-            else if (me.bottom == stage[8].top) {
-                me.left -= 10;
-                me.right -= 10;
-            }
+            }            
             else
             {
                 me.left -= 0;
                 me.right -= 0;
             }
 
-            //부메랑
+        }
 
-            if (me.bottom == stage[0].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[1].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[2].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[3].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[4].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[5].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[6].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[7].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else if (me.bottom == stage[8].top) {
-                shoot.left -= 10;
-                shoot.right -= 10;
-            }
-            else
-            {
-                shoot.left -= 0;
-                shoot.right -= 0;
-            }
+        //부메랑
+        {
+        if (me.bottom == stage[0].top) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else if (me.bottom == 550) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else if (me.bottom == 400) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else if (me.bottom == 300) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else if (me.bottom == 260) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else if (me.bottom == 100) {
+            shoot.left -= 10;
+            shoot.right -= 10;
+        }
+        else
+        {
+            shoot.left -= 0;
+            shoot.right -= 0;
+        }
+    }
 
             break;
 
@@ -580,80 +627,79 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     me.left += 10;
                     me.right += 10;
                 }
-                else if (me.bottom == stage[1].top) {
+                else if (me.bottom == 550) {
+                     me.left += 10;
+                     me.right += 10;                    
+                }
+                else if (me.bottom ==  400) {
+                    if (me.right == 600)
+                    {
+                        me.left -= 0;
+                        me.right -= 0;
+                    }
+                    else
+                    {
+                        me.left += 10;
+                        me.right += 10;
+                    }
+                }
+                else if (me.bottom == 300) {
+                    if (me.right == 400)
+                    {
+                        me.left += 0;
+                        me.right += 0;
+                    }
+                    else if(me.right == 900)
+                    {
+                        me.left -= 0;
+                        me.right -= 0;
+                    }
+                    else
+                    {
+                        me.left += 10;
+                        me.right += 10;
+                    }
+                }                
+                else if (me.bottom == 260) {
                     me.left += 10;
                     me.right += 10;
                 }
-                else if (me.bottom == stage[2].top) {
+                else if (me.bottom == 100) {
                     me.left += 10;
                     me.right += 10;
                 }
-                else if (me.bottom == stage[3].top) {
-                    me.left += 10;
-                    shoot.left += 10;
-                }
-                else if (me.bottom == stage[4].top) {
-                    me.left += 10;
-                    me.right += 10;
-                }
-                else if (me.bottom == stage[5].top) {
-                    me.left += 10;
-                    me.right += 10;
-                }
-                else if (me.bottom == stage[6].top) {
-                    me.left += 10;
-                    me.right += 10;
-                }
-                else if (me.bottom == stage[7].top) {
-                    me.left += 10;
-                    me.right += 10;
-                }
-                else if (me.bottom == stage[8].top) {
-                    me.left += 10;
-                    me.right += 10;
-                }
+
                 else
                 {
                     me.left += 0;
                     me.right += 0;
-                }
+                }       
+
             }
 
             //총알
-            {
+           {
                 if (me.bottom == stage[0].top) {
                     shoot.left += 10;
                     shoot.right += 10;
                 }
-                else if (me.bottom == stage[1].top) {
+                else if (me.bottom == 550) {
                     shoot.left += 10;
                     shoot.right += 10;
                 }
-                else if (me.bottom == stage[2].top) {
+                else if (me.bottom == 400) {
                     shoot.left += 10;
                     shoot.right += 10;
                 }
-                else if (me.bottom == stage[3].top) {
-                    me.left += 10;
+                else if (me.bottom == 300) {
+                    shoot.left += 10;
                     shoot.left += 10;
                 }
-                else if (me.bottom == stage[4].top) {
+                else if (me.bottom == 260) {
                     shoot.right += 10;
                     shoot.left += 10;
                 }
-                else if (me.bottom == stage[5].top) {
-                    shoot.left += 10;
-                    shoot.right += 10;
-                }
-                else if (me.bottom == stage[6].top) {
-                    shoot.left += 10;
-                    shoot.right += 10;
-                }
-                else if (me.bottom == stage[7].top) {
-                    shoot.left += 10;
-                    shoot.right += 10;
-                }
-                else if (me.bottom == stage[8].top) {
+                else if (me.bottom == 100) {
                     shoot.left += 10;
                     shoot.right += 10;
                 }
@@ -662,12 +708,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     shoot.left += 0;
                     shoot.right += 0;
                 }
+               
             }
 
             break;
 
-        case VK_UP:     // y 좌표의 이동 (top, botoom) -> 감소
-                        //상
+        case VK_UP:  //상
         {
             if (me.left >= 50 && me.right <= 100) {
                 if (me.bottom <= 400 && me.bottom > 105)
@@ -746,7 +792,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 
 
-        case VK_DOWN:   // y 좌표의 이동 (top, botoom) -> 증가
+        case VK_DOWN:   // 하
 
         {
             if (me.left >= 50 && me.right <= 100) {
@@ -827,6 +873,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
         case VK_SPACE:
+        {
             if (me.left >= 0 && me.right <= 1300)
             {
                 if (flag == 1)
@@ -834,61 +881,100 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     me.left += 150;
                     me.right += 150;
                 }
-                else
+                else if (flag == 0)
                 {
                     me.left -= 150;
                     me.right -= 150;
                 }
-
-            if (flag == 1)
-            {
-                shoot.left += 150;
-                shoot.right += 150;
+                else
+                {
+                    me.left += 0;
+                    me.right += 0;
+                }
             }
-            else
+
+            //화면 밖으로 이동 X
             {
-                me.left -= 150;
-                me.right -= 150;
+                if (me.left < 0)
+                {
+                    me.left = 0;
+                    me.right = 40;
+                }
+
+                if (me.right > 1300)
+                {
+                    me.left = 1260;
+                    me.right = 1300;
+                }
+
+                if (shoot.left < 0)
+                {
+                    shoot.left = 20;
+                    shoot.right = 40;
+                }
+
+                if (shoot.right > 1300)
+                {
+                    shoot.left = 1280;
+                    shoot.right = 1300;
+                }
+            }
+
+            {
+            if (me.bottom == 550)
+            {
+                if (me.left < 300)
+                {
+                    me.left = 300;
+                    me.right = 340;
+                }
+            }
+
+            if (me.bottom == 400)
+            {
+                if (me.right > 600 && me.right < 700)
+                {
+                    me.left = 560;
+                    me.right = 600;
+                }
+                else if (me.left > 600 && me.left < 700)
+                {
+                    me.left = 700;
+                    me.right = 740;
+                }
             }
         }
-            else if (me.left < 0)
-            {
-                me.left = 0;
-                me.right = 40;
-            }
-            else
-            {
-                me.left = 1260;
-                me.right = 1300;
-            }
-            break;
+
+        }
+        break;
 
 
         case VK_CONTROL:
 
             sh = 2;
 
-
-
             break;
-        }
-
-
-        // WM_PAINT를 강제로 프로그래머가 호출하는 방법
+        }   
+                
         InvalidateRect(hWnd, NULL, TRUE);
-
+ }
         break;
 
     case WM_PAINT:
     {
         int i = 0;
         PAINTSTRUCT ps;
+        WCHAR wscore[64] = { 0, };
         HDC hdc = BeginPaint(hWnd, &ps);
         // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
 
+        wsprintfW(wscore, L"Score : %d", score);
+        TextOut(hdc, 10, 10, wscore, lstrlenW(wscore));
+        TextOut(hdc, 10, 30, L"스페이스바 : 점프 \t 컨트롤 : 공격 ", 22);
+
         //stage 그려주는 반복문
 
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < 9; i++)
         {
             Rectangle(hdc, stage[i].left, stage[i].top, stage[i].right, stage[i].bottom);
         }
@@ -910,17 +996,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         //적
 
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < 4; i++)
         {
             Ellipse(hdc, villan[i].left, villan[i].top, villan[i].right, villan[i].bottom);
         }
 
         //나
+        RoundRect(hdc, me.left, me.top, me.right, me.bottom,12,12);
 
-        Rectangle(hdc, me.left, me.top, me.right, me.bottom);
-
-        //부메랑
+        //공격
         Ellipse(hdc, shoot.left, shoot.top, shoot.right, shoot.bottom);
+
+        //end message
+        if (score == 800)
+        {
+            KillTimer(hWnd, TIMER);
+            KillTimer(hWnd, TIME);
+            MessageBox(hWnd, L"축축", L"게임 끝~", MB_OK);
+
+            return  0;
+        }
 
         EndPaint(hWnd, &ps);
     }
@@ -936,7 +1031,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return 0;
     }
-}
+
 
 // 정보 대화 상자의 메시지 처리기입니다.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
